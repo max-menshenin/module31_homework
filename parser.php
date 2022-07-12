@@ -11,12 +11,12 @@ class MetaIterator
             $this->array = array_merge($this->array, $matches);
         }
     }
-    private function recScan($array)
+    private function recursiveScan($array)
     {
         $iterator = new RecursiveArrayIterator($array);
         while ($iterator->valid()) {
             if ($iterator->hasChildren()) {
-                $this->recScan(iterator_to_array($iterator->getChildren()));
+                $this->recursiveScan(iterator_to_array($iterator->getChildren()));
             } else {
                 echo htmlspecialchars($iterator->current()) . '<br>';
             }
@@ -25,7 +25,7 @@ class MetaIterator
     }
     public function getTagList()
     {
-        $this->recScan($this->array);
+        $this->recursiveScan($this->array);
     }
 }
 $code = file_get_contents('index.html');
